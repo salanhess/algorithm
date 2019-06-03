@@ -10,6 +10,27 @@ import (
 //	Next *ListNode
 //}
 
+//递归操作，只要保证每个listnode.Next为最小的即可
+//终止条件（因为默认排好序的，只要有空的，就将其后所有节点挂置最后即可）
+//判断条件：递归，如果l1大就l1.Next, 反之亦然，下个节点为res.Next
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+	if l1 == nil {
+		return l2
+	}
+	if l2 == nil {
+		return l1
+	}
+	var res *ListNode
+	if l1.Val <= l2.Val {
+		res = l1
+		res.Next = mergeTwoLists(l1.Next, l2)
+	} else {
+		res = l2
+		res.Next = mergeTwoLists(l1, l2.Next)
+	}
+	return res
+}
+
 func deleteDuplicates(head *ListNode) *ListNode {
 	current := head
 	for current != nil && current.Next != nil {
@@ -21,7 +42,6 @@ func deleteDuplicates(head *ListNode) *ListNode {
 	}
 	return head
 }
-
 func main() {
 	//SinglyLinkedList.Test()
 	s := New()
@@ -43,4 +63,15 @@ func main() {
 	s.Traverse()
 	head = deleteDuplicates(n1)
 	s.Traverse()
+	fmt.Println("========")
+	s = New()
+	s.Format([]int{1, 2, 3})
+	s2 := New()
+	s2.Format([]int{1, 2, 3, 4, 5, 6})
+	mergehead := mergeTwoLists(s.Front(), s2.Front())
+	merge := New()
+	merge.Append(mergehead)
+	merge.Traverse()
+	fmt.Println("=======above leetcode 21 ======")
+
 }
