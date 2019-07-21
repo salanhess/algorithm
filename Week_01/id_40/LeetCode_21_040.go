@@ -10,9 +10,27 @@ import (
 //	Next *ListNode
 //}
 
+func mergeTwoLists2(l1 *ListNode, l2 *ListNode) *ListNode {
+	if l1 == nil {
+		return l2
+	}
+	if l2 == nil {
+		return l1
+	}
+	var tmp *ListNode
+	if l1.Val <= l2.Val {
+		tmp = l1
+		tmp.Next = mergeTwoLists2(l1.Next, l2)
+	} else {
+		tmp = l2
+		tmp.Next = mergeTwoLists2(l1, l2.Next)
+	}
+	return tmp
+}
+
 //递归操作，只要保证每个listnode.Next为最小的即可
 //终止条件（因为默认排好序的，只要有空的，就将其后所有节点挂置最后即可）
-//判断条件：递归，如果l1大就l1.Next, 反之亦然，下个节点为res.Next
+//判断条件：递归，如果l1大就起始点为l1,然后递归从l1.Next继续,反之亦然，下个节点为res.Next
 func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 	if l1 == nil {
 		return l2
@@ -68,7 +86,7 @@ func main() {
 	s.Format([]int{1, 2, 3})
 	s2 := New()
 	s2.Format([]int{1, 2, 3, 4, 5, 6})
-	mergehead := mergeTwoLists(s.Front(), s2.Front())
+	mergehead := mergeTwoLists2(s.Front(), s2.Front())
 	merge := New()
 	merge.Append(mergehead)
 	merge.Traverse()

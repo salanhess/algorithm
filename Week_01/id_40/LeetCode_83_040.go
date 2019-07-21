@@ -10,6 +10,17 @@ import (
 //	Next *ListNode
 //}
 
+func deleteDuplicates2(head *ListNode) *ListNode {
+	current := head
+	for current != nil && current.Next != nil {
+		if current.Val == current.Next.Val {
+			current.Next = current.Next.Next
+		} else {
+			current = current.Next
+		}
+	}
+	return head
+}
 func deleteDuplicates(head *ListNode) *ListNode {
 	current := head
 	for current != nil && current.Next != nil {
@@ -41,6 +52,7 @@ func main() {
 	n3 := &ListNode{3, nil}
 	s.Append(n3)
 	s.Traverse()
-	head = deleteDuplicates(n1)
+	head = deleteDuplicates2(n1)
+	//head = deleteDuplicates(n1)
 	s.Traverse()
 }
